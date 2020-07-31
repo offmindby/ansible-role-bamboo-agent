@@ -22,11 +22,16 @@
     - install_jdk
     - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+- name: Add service group
+  group:
+    name: "{{ bamboo_agent_group }}"
+    state: present
+
 - name: Add service user
   user:
     name: "{{ bamboo_agent_user }}"
+    group: "{{ bamboo_agent_group }}"
     uid: "{{ bamboo_agent_uid }}"
-    home: "{{ bamboo_agent_application_folder }}"
 
 - name: Create data folder for agent
   file:
@@ -58,9 +63,7 @@
   when: data_folder.changed
   
 - name: Install bamboo agent
-  command: "java -Dbamboo.home={{ bamboo_agent_data_folder }} -jar {{ bamboo_agent_application_folder }}/atlassian-bamboo-agent-installer-{{ bamboo_master_version }}.jar {{ bamboo_master_url }}/agentServer/ install"
-  become: yes
-  become_user: "{{ bamboo_agent_user }}"
+  command: "sudo -u {{ bamboo_agent_user }} /usr/bin/java -Dbamboo.home={{ bamboo_agent_data_folder }} -jar {{ bamboo_agent_application_folder }}/atlassian-bamboo-agent-installer-{{ bamboo_master_version }}.jar {{ bamboo_master_url }}/agentServer/ install"
   when: data_folder.changed
 
 - name: Remove bamboo agent installer

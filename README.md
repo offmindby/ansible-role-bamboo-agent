@@ -24,13 +24,13 @@ Whether to install JDK or not.
 
 The version of openJDK to install (remote agent only).
 
-    bamboo_agent_remote: False
+    bamboo_agent_remote: false
 
 Whether this is a remote agent or not.
 
     bamboo_master_version: ""
     bamboo_master_fqdn: ""
-    bamboo_master_https: False
+    bamboo_master_https: false
     bamboo_master_port: ""
 
 Bamboo master connection (remote agent only)
@@ -40,12 +40,13 @@ Bamboo master connection (remote agent only)
 Service user for Bamboo master node (local agent only)
 
     bamboo_agent_user: bambooagent
+    bamboo_agent_group: bambooagent
     bamboo_agent_uid: 5000
 
 Service user name, primary group and ID for systemd (remote agent only).
 
-    bamboo_agent_application_folder: "/opt/{{ bamboo_agent_user }}"
-    bamboo_agent_data_folder: "/opt/{{ bamboo_agent_user }}/bamboo-agent-home"
+    bamboo_agent_application_folder: "/home/{{ bamboo_agent_user }}"
+    bamboo_agent_data_folder: "/home/{{ bamboo_agent_user }}/bamboo-agent-home"
 
 Path where to store application binaries and application data (remote agent
 only).
